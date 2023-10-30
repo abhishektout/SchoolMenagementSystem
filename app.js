@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import studentRouter from './Routes/Student.Route.js'
 import adminRouter from './Routes/Admin.Route.js';
 import bodyParser from "body-parser";
+import feesRouter from "./Routes/FeesRoute.js"
 const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}));
@@ -13,6 +14,7 @@ mongoose.connect(url).then(result => {
     
     app.use("/admin",adminRouter);
     app.use("/student",studentRouter);
+    app.use("/fees",feesRouter)
     app.listen(3000, () => {
         console.log("Mongoose/server connect")
     })
