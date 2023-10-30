@@ -1,5 +1,6 @@
 import { request } from "express"
 import { StudentPersonalInfo } from "../Model/StudentPersonalInfo.Model.js";
+import { StudentAttendance } from "../Model/StudentAttendance.Model.js";
 
 export const verifyStudent=async (request,response,next)=>{
     try{
@@ -26,3 +27,13 @@ export const registration = async (request, response, next) => {
         return response.status(500).json({ err: "Internal server error", status: false });
     }
 };
+
+export const studentAttendance = async (request,response,next)=>{
+    let student = await StudentPersonalInfo.findOne({stdId: request.body.stdId});
+    if(student){
+        let attendance = await StudentAttendance.create(request.body);
+        return response.status(200).json({result:attendance,status:true});
+    }
+    else
+        return response.status(500).json({error:"attendance not found",status:false});
+}
