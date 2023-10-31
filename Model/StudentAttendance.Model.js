@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const studentAttendanceSchema= new mongoose.Schema({
     stdId: {
         type: Number,
-        // ref: 'studentPersonalInfo',
         required: true,
     },
     month :{
