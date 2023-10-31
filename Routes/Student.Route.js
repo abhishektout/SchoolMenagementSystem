@@ -1,8 +1,8 @@
 import express from "express";
-import { feeCollection, registration, verifyStudent } from "../Controller/Student.Controller.js";
+import { feeCollection,  studentAttendance,registration, verifyStudent } from "../Controller/Student.Controller.js";
 const router=express.Router();
+router.post("/feeCollection",feeCollection)
 router.post("/verifyStudent",verifyStudent);
 router.post("/registration",registration);
-router.post("/feeCollection",feeCollection)
-
+router.post("/studentAttendance",studentAttendance);
 export default router;

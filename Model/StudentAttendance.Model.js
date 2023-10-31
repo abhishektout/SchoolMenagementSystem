@@ -2,9 +2,13 @@ import mongoose from "mongoose";
 
 const studentAttendanceSchema= new mongoose.Schema({
     stdId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'studentPersonalInfo',
+        type: Number,
+        // ref: 'studentPersonalInfo',
         required: true,
+    },
+    month :{
+        type:String,
+        required:true
     },
     presentDay:{
         type:Number,

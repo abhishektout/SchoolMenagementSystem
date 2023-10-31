@@ -12,7 +12,6 @@ app.use(bodyParser.urlencoded({extended:true}));
 let url = "mongodb+srv://Tout:Lkr8k1SHwWgitNSr@cluster0.mybmtfa.mongodb.net/SCM?retryWrites=true&w=majority"
 mongoose.connect(url).then(result => {
     
-
     app.use("/admin",adminRouter);
     app.use("/student",studentRouter);
     app.listen(3000, () => {
