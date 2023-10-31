@@ -1,3 +1,4 @@
+import express from "express";
 import { request, response } from "express";
 import { Admin } from "../Model/Admin.Model.js";
 

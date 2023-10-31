@@ -1,10 +1,10 @@
-// import e from "express";
-import express from "express"
+import express from "express";
 import mongoose from "mongoose";
 import cors from 'cors'
 import studentRouter from './Routes/Student.Route.js'
 import adminRouter from './Routes/Admin.Route.js';
 import bodyParser from "body-parser";
+import cors from "cors"
 
 const app = express();
 app.use(bodyParser.json())
