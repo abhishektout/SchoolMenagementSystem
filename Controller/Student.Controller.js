@@ -28,6 +28,7 @@ export const registration = async (request, response, next) => {
     }
 };
 export const feeCollection=async(request,response,next)=>{
+    console.log(request.body)
     try{
     const student=await StudentPersonalInfo.findById(request.body.studentid)
     const transactionId=await StudentFee.find({transactionId:request.body.transactionId})
@@ -45,5 +46,7 @@ export const feeCollection=async(request,response,next)=>{
         return response.status(500).json({ err: "internal server error", status: false });
     }
 }
+
+
 
 

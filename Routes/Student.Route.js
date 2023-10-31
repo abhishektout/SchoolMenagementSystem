@@ -3,6 +3,6 @@ import { feeCollection, registration, verifyStudent } from "../Controller/Studen
 const router=express.Router();
 router.post("/verifyStudent",verifyStudent);
 router.post("/registration",registration);
-router.post("/feeCollection",feeCollection)
+router.post("/fees",feeCollection)
 
 export default router;
