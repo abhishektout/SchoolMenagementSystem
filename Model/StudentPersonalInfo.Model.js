@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 const studentPersonalInfoSchema = new mongoose.Schema({
     stdId: {
-        type: Number,
+        type: String,
         unique: true,
+        null:false,
     },
     stdName: {
         type: String,
@@ -35,20 +36,21 @@ const studentPersonalInfoSchema = new mongoose.Schema({
     dob: {
         type: String,
         required: true,
-    },
+    },                                                                                                                                                 
     aadharNumber: {
         type: Number,
         required: true,
         unique: true,
     },
     castNumber: {
-        type: Number,
+        type: String,
         required: true,
         unique: true,
     },
-    birthCertificateNumber: Number,
-    incomeProofNumber: Number,
-    lastYearRollNumber: Number,
+    previousClass:String,
+    birthCertificate: String,
+    incomeProof: String,
+    previousClassRollNumber: Number,
 });
 
 export const StudentPersonalInfo = mongoose.model('studentPersonalInfo', studentPersonalInfoSchema);
