@@ -2,6 +2,7 @@ import { request, response } from "express"
 import { StudentPersonalInfo } from "../Model/StudentPersonalInfo.Model.js";
 import { StudentFee } from "../Model/StudentFee.Model.js";
 import { StudentAttendance } from "../Model/StudentAttendance.Model.js";
+import { ClassFee } from "../Model/ClassFee.js";
 export const verifyStudent = async (request, response, next) => {
     try {
         let student = await StudentPersonalInfo.findOne({ aadharNumber: request.body.aadharNumber });
@@ -54,31 +55,16 @@ export const feeCollection=async(request,response,next)=>{
 export const studentAttendance = async (request, response, next) => {
     let student = await StudentPersonalInfo.findOne({ stdId: request.body.stdId });
     if (student) {
-        let attendance = await StudentAttendance.create(request.body);
+        let classTotalDay=request.body.presentDay+request.body.absentDay;
+        let attendance = await StudentAttendance.create({stdId:request.body.stdId,month:request.body.month,presentDay:request.body.presentDay,absentDay:request.body.absentDay,totalDay:classTotalDay});
         return response.status(200).json({ result: attendance, status: true });
     }
     else
         return response.status(500).json({ error: "attendance not found", status: false });
 }
 
-export const validateStudentId = (reqest, response) => {
-    StudentPersonalInfo.findById(reqest.body.studentid).then(res => {
-        return response.status(200).json({ result: "student id is valid" })
-    }).catch(err => {
-        return response.status(500).json({ err: "student id is not valid" })
-    })
-}
-export const validateTransactionId = (reqest, response) => {
-    StudentFee.find({ transactionId: reqest.body.transactionId }).then(res => {
-        if (res.length < 2)
-            return response.status(200).json({ result: "student id is valid" })
-        else
-            return response.status(200).json({ result: "student id is valid" })
 
-    }).catch(err => {
-        return response.status(500).json({ err: "student id is not valid" })
-    })
-}
+
 
 export const classFee = (request, response, next) => {
     try {
@@ -98,6 +84,7 @@ export const fetchFee = async (request, response, next) => {
        console.log(request.body.className)
 
         const classFee = await ClassFee.findOne({ className: request.body.className});
+        console.log(classFee)
         if (classFee) {
             console.log(classFee.fee);
             return response.status(200).json({ result: classFee.fee });

@@ -1,5 +1,4 @@
-import { AccountInfo } from "../Model/SchoolAccountInfo";
-
+import { AccountInfo } from "../Model/SchoolAccountInfo.js";
 export const verifyTransactioId = (request, response, next) => {
     try {
         let transaction = AccountInfo.findOne({ transactionId: request.body.transactionId });
