@@ -1,14 +1,15 @@
-import { request } from "express"
+import { request, response } from "express"
 import { StudentPersonalInfo } from "../Model/StudentPersonalInfo.Model.js";
 import { StudentFee } from "../Model/StudentFee.Model.js";
 import { StudentAttendance } from "../Model/StudentAttendance.Model.js";
-export const verifyStudent=async (request,response,next)=>{
-    try{
-        let student=await StudentPersonalInfo.findOne({aadharNumber:request.body.aadharNumber});
-       console.log(student)
-        return await student?response.status(200).json({result:"student is already register",status:true}):response.status(400).json({result:"student Not register",status:false})
+export const verifyStudent = async (request, response, next) => {
+    try {
+        let student = await StudentPersonalInfo.findOne({ aadharNumber: request.body.aadharNumber });
+        console.log(student)
+        return await student ? response.status(200).json({ result: "student is already register", status: true }) : response.status(400).json({ result: "student Not register", status: false })
+
     }
-    catch(err){
+    catch (err) {
         return response.status(500).json({ err: "internal server error", status: false });
     }
 }
@@ -17,9 +18,12 @@ export const registration = async (request, response, next) => {
     try {
         const student = await StudentPersonalInfo.findOne({ aadharNumber: request.body.aadharNumber });
         if (!student) {
-           let registration=await StudentPersonalInfo.create(request.body);
-           console.log(registration)
+            let registration = await StudentPersonalInfo.create(request.body);
+            console.log(registration)
+            return response.status(200).json({ result: "Student is register succcess", status: true });
+
         } else {
+            console.log("student already")
             return response.status(400).json({ result: "Student is already registered", status: false });
         }
     } catch (err) {
@@ -47,12 +51,61 @@ export const feeCollection=async(request,response,next)=>{
 }
 
 
-export const studentAttendance = async (request,response,next)=>{
-    let student = await StudentPersonalInfo.findOne({stdId: request.body.stdId});
-    if(student){
+export const studentAttendance = async (request, response, next) => {
+    let student = await StudentPersonalInfo.findOne({ stdId: request.body.stdId });
+    if (student) {
         let attendance = await StudentAttendance.create(request.body);
-        return response.status(200).json({result:attendance,status:true});
+        return response.status(200).json({ result: attendance, status: true });
     }
     else
-        return response.status(500).json({error:"attendance not found",status:false});
+        return response.status(500).json({ error: "attendance not found", status: false });
 }
+
+export const validateStudentId = (reqest, response) => {
+    StudentPersonalInfo.findById(reqest.body.studentid).then(res => {
+        return response.status(200).json({ result: "student id is valid" })
+    }).catch(err => {
+        return response.status(500).json({ err: "student id is not valid" })
+    })
+}
+export const validateTransactionId = (reqest, response) => {
+    StudentFee.find({ transactionId: reqest.body.transactionId }).then(res => {
+        if (res.length < 2)
+            return response.status(200).json({ result: "student id is valid" })
+        else
+            return response.status(200).json({ result: "student id is valid" })
+
+    }).catch(err => {
+        return response.status(500).json({ err: "student id is not valid" })
+    })
+}
+
+export const classFee = (request, response, next) => {
+    try {
+        let response = ClassFee.create(request.body);
+        console.log(response)
+    }
+    catch (err) {
+        return response.status(500).json({ err: "student id is not valid" })
+
+    }
+
+}
+
+export const fetchFee = async (request, response, next) => {
+    console.log("controller")
+       try {
+       console.log(request.body.className)
+
+        const classFee = await ClassFee.findOne({ className: request.body.className});
+        if (classFee) {
+            console.log(classFee.fee);
+            return response.status(200).json({ result: classFee.fee });
+        } else {
+            return response.status(404).json({ error: "Class fee not found" });
+        }
+    } catch (err) {
+        console.error(err);
+        return response.status(500).json({ error: "An error occurred" });
+    }
+};
